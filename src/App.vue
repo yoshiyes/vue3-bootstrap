@@ -1,5 +1,5 @@
 <template>
-  <b-button size="lg">ffff</b-button>
+  <b-button size="lg" color="primary">Mon Bouton</b-button>
 </template>
 
 <script lang="ts">
