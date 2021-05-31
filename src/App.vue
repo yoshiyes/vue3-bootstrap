@@ -1,11 +1,10 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <Button>ffffffffffffffffffff</Button>
+  <b-button size="lg">ffff</b-button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Button from "./components/Button/Button.vue";
+import Button from "./components/Button";
 
 export default defineComponent({
   name: "App",
