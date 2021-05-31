@@ -1,11 +1,12 @@
 <template>
   <component
     class="btn"
-    :is="href ? 'a' : element"
+    :is="rootElement"
     :type="type"
     :class="rootClasses"
     :disabled="disabled"
     :href="href"
+    :to="to"
   >
     <slot></slot>
   </component>
@@ -31,6 +32,7 @@ export default defineComponent({
       type: String,
       default: Colors.PRIMARY,
     },
+    to: {},
     size: {
       type: String,
     },
@@ -41,16 +43,22 @@ export default defineComponent({
       type: Boolean,
     },
     squared: {
-      type: Boolean
+      type: Boolean,
     },
     nowrap: {
       type: Boolean,
     },
     href: {
-      type: String
-    }
+      type: String,
+    },
   },
   setup(props, { slots }) {
+    const rootElement = computed(() => {
+      if (props.href) return "a";
+      else if (props.to) return "router-link";
+      else return props.element;
+    });
+
     const rootClasses = computed(() => [
       {
         [`btn-${props.color}`]: props.color,
@@ -58,10 +66,16 @@ export default defineComponent({
         "rounded-pill": props.pill,
         "rounded-0": props.squared,
         "text-nowrap": props.nowrap,
-        "disabled": props.href && props.disabled
+        disabled: props.href && props.disabled,
       },
     ]);
-    return { rootClasses };
+
+    const rootAttributes = computed(() => [
+      {
+
+      }
+    ])
+    return { rootElement, rootClasses };
   },
 });
 </script>
