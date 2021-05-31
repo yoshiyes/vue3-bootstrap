@@ -7,13 +7,16 @@
     :disabled="disabled"
     :href="href"
     :to="to"
+    v-bind="rootAttributes"
+    @click="onClick"
   >
+<!--    @click="onClick"-->
     <slot></slot>
   </component>
 </template>
 
 <script>
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, reactive, ref } from "vue";
 
 import { Colors } from "@/models";
 
@@ -51,8 +54,13 @@ export default defineComponent({
     href: {
       type: String,
     },
+    pressed: {
+      type: Boolean,
+    },
   },
-  setup(props, { slots }) {
+  setup(props) {
+    const isActive = ref(props.pressed);
+
     const rootElement = computed(() => {
       if (props.href) return "a";
       else if (props.to) return "router-link";
@@ -67,15 +75,24 @@ export default defineComponent({
         "rounded-0": props.squared,
         "text-nowrap": props.nowrap,
         disabled: props.href && props.disabled,
+        active: props.pressed,
       },
     ]);
 
-    const rootAttributes = computed(() => [
-      {
+    const rootAttributes = computed(() => {
+      return {
+        "aria-disabled": props.disabled,
+        "aria-pressed": isActive.value,
+        ...{ tabindex: props.disabled ? "-1" : "" },
+        "data-bs-toggle": "button",
+      };
+    });
 
-      }
-    ])
-    return { rootElement, rootClasses };
+    function onClick() {
+      isActive.value = !isActive.value;
+    }
+
+    return { rootElement, rootClasses, rootAttributes, onClick };
   },
 });
 </script>
