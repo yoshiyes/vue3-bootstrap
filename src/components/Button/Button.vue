@@ -10,13 +10,12 @@
     v-bind="rootAttributes"
     @click="onClick"
   >
-<!--    @click="onClick"-->
     <slot></slot>
   </component>
 </template>
 
 <script>
-import { defineComponent, computed, reactive, ref } from "vue";
+import { defineComponent, computed, ref } from "vue";
 
 import { Colors } from "@/models";
 
